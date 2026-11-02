@@ -15,7 +15,7 @@ competition data only, starting from ImageNet-pretrained timm backbones.
 | | public | private |
 |---|---|---|
 | final submission 1: rank mean of 4 models | 0.970 | 0.957 |
-| final submission 2: the same 4 + a twin of each (8 models) | 0.970 | 0.957 |
+| final submission 2: the same 4 + 4 twins retrained with another seed and the 58 gold studies added (8 models) | 0.970 | 0.957 |
 | best single model: ConvNeXt-S | 0.969 | 0.958 |
 
 ## Repository layout
