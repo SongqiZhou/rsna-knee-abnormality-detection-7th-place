@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+# written by the scripts (paths in SETTINGS.json)
+/data/
+/work/
+/runs/
+/models/
+/submission/

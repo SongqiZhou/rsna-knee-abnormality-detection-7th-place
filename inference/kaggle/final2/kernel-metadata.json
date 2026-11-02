@@ -1,0 +1,19 @@
+{
+  "id": "songqizhou/rsna-knee-7th-place-inference-8-models",
+  "title": "RSNA Knee 7th Place Inference 8 Models",
+  "code_file": "rsna-knee-7th-place-inference-8-models.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "false",
+  "enable_gpu": "true",
+  "enable_internet": "false",
+  "dataset_sources": [
+    "songqizhou/rsna-knee-7th-place-models"
+  ],
+  "competition_sources": [
+    "rsna-knee-abnormality-detection"
+  ],
+  "kernel_sources": [],
+  "machine_shape": "NvidiaTeslaT4",
+  "docker_image": "gcr.io/kaggle-private-byod/python@sha256:9a6bcfda6d03b2cd9aa347ee8c1bae62043328ed0f4afe9bda014e4f8bbf9435"
+}

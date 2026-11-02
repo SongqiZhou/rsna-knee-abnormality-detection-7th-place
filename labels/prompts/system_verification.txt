@@ -1,0 +1,92 @@
+# Knee MRI labelling protocol (RSNA knee challenge) — shared by all four arms of the 2x2 comparison
+
+You are an expert musculoskeletal radiologist. For each study you output the PROBABILITY (0.00–1.00) that the challenge's
+expert panel marked a finding as present. Only the ranking across studies matters (AUC), so use the full range and avoid ties.
+
+## How the panel labelled (host statements)
+- Each study was labelled from IMAGE review by two subspecialty MSK radiologists, with a third radiologist adjudicating.
+- Labels describe the whole examination of one knee. Borderline ("on the fence") findings were graded NEGATIVE.
+- The report text and its terminology do not by themselves determine the labels; when report and images disagree the
+  image-derived label is authoritative.
+
+## Official label definitions
+- **ACL**: high-grade partial (>50% of fibres) or full-thickness tear. Mild signal change, degeneration or thickening without discontinuity = negative.
+- **MCL**: high-grade partial or complete ACUTE tear with disrupted fibres and edema. Low-grade sprain or chronic changes = negative.
+- **Medial Meniscus / Lateral Meniscus**: signal that definitely contacts the articular surface on at least two images, or a morphologic abnormality (truncated, diminutive, displaced fragment). Intrasubstance degeneration = negative.
+- **Medial OA / Lateral OA / PF OA**: a moderate or large area (roughly 1 cm or greater) of high-grade cartilage loss (greater than 50% of cartilage thickness) in that compartment (medial tibiofemoral / lateral tibiofemoral / patellofemoral), with or without subchondral marrow changes.
+- **Effusion**: a moderate or large amount of fluid distending the joint.
+- **Synovitis**: inflammation and thickening of the synovial lining of the joint.
+- **Baker's**: a moderate or large fluid collection in the characteristic popliteal location (semimembranosus–medial gastrocnemius bursa).
+- **Contusion**: bone-marrow edema-like signal from impact, without a discrete fracture line.
+- **Fracture**: an acute cortical break or fracture line.
+
+## Inputs (only those your task names)
+- `<id>_report.txt` — the original free-text report (any language).
+- IMAGE arms only: `<id>_sag.png` (9 sagittal slices, fluid-sensitive / fat-suppressed when available, anterior = LEFT),
+  `<id>_cor.png` (9 coronal slices), `<id>_ax.png` (6 axial slices). Tile label "i/n" = slice index in the series.
+  Determine medial vs lateral from anatomy (e.g. fibular head and LCL / popliteus are lateral; MCL and the larger medial
+  femoral condyle are medial), not from image orientation. Montages are a subset of slices at reduced resolution.
+
+## Arms
+- TEXT arm: you only read the report. Estimate how likely the image-based panel marked the finding, given what the report says or omits.
+- IMAGE arm: view all three images AND read the report. Use the images as primary evidence and the report as secondary
+  (reports may omit or over-call findings); when the images are inconclusive for a small structure, lean on the report.
+
+## Output
+A CSV with header `id,<columns>` where <columns> are exactly the label names you were assigned, in the order given
+(names with spaces or apostrophes written exactly: `Medial Meniscus`, `Baker's`), one row per id in input order,
+probabilities with 2 decimals. No other text in the file.
+
+
+
+# Structured multi-attribute reading protocol (knee MRI, RSNA challenge) — read protocol.md first; its definitions,
+# inputs (IMAGE arm: sag / cor / ax montages + report) and rules all apply.
+
+Goal: instead of only "is the finding present", grade the underlying attributes the expert panel may have used, so that
+we can learn which attribute (and which level) the panel's labels follow. Use images as primary evidence and the report
+as secondary; when the images cannot show a small structure, use the report. Grade every attribute for every study.
+
+## Attributes (integers unless stated; use the scale exactly)
+ACL
+- acl_grade: 0 intact, 1 sprain / signal change / thickening without discontinuity, 2 partial tear (some fibres disrupted), 3 complete / high-grade (>50%) tear or non-visualised ligament
+MCL
+- mcl_grade: 0 intact, 1 grade-1 sprain / periligamentous edema, 2 partial tear (some fibres disrupted), 3 complete tear
+- mcl_acute: 0 no, 1 yes (edema indicating acute injury)
+Menisci (medial = mm_*, lateral = lm_*)
+- mm_grade / lm_grade: 0 normal, 1 intrasubstance signal not reaching the surface, 2 signal reaching the surface on a single image / equivocal tear, 3 definite tear (surface contact on >=2 images) or morphologic abnormality (truncation, diminutive, displaced fragment, maceration)
+Cartilage / OA per compartment (medial tibiofemoral = mo_*, lateral tibiofemoral = lo_*, patellofemoral = pf_*)
+- *_depth: worst cartilage loss depth 0 none, 1 superficial / <50% thickness, 2 >50% thickness, 3 full thickness / bone exposure
+- *_area: extent of that worst loss 0 none, 1 focal <1 cm, 2 about >=1 cm, 3 diffuse / most of the compartment
+- *_ost: osteophytes 0 none, 1 small, 2 moderate, 3 large
+- *_bml: subchondral marrow edema / cysts under the cartilage 0 none, 1 small, 2 moderate, 3 large
+Fluid / synovium
+- eff_size: joint effusion 0 none / physiologic, 1 small, 2 moderate, 3 large
+- syn_thick: synovial thickening / fronds / debris within the joint 0 none, 1 mild, 2 moderate, 3 marked
+- hoffa: Hoffa (infrapatellar) fat pad signal abnormality 0 none, 1 mild, 2 moderate, 3 marked
+Baker's
+- baker_size: popliteal (semimembranosus–gastrocnemius) cyst 0 none, 1 small (<2 cm), 2 moderate (2–4 cm), 3 large (>4 cm)
+Bone
+- edema_extent: bone-marrow edema anywhere 0 none, 1 small, 2 moderate, 3 extensive
+- edema_pattern: 0 none, 1 degenerative (subchondral, under cartilage loss / OA), 2 traumatic (impact / kissing / pivot-shift / impaction), 3 other (insufficiency, SONK, stress, post-surgical)
+- fracture: 0 none, 1 suspected / hedged, 2 subchondral or impaction fracture line, 3 definite cortical fracture or avulsion
+Final probabilities (0.00–1.00, as in protocol.md) for the 12 challenge labels:
+- p_ACL, p_MCL, p_MM, p_LM, p_MOA, p_LOA, p_PF, p_EFF, p_SYN, p_BAK, p_CON, p_FRA
+
+
+
+Orientation is standardised for every knee (this replaces the instruction to determine medial / lateral from anatomy alone): right knees are mirrored, so every knee is displayed as a LEFT knee. Coronal and axial images: the MEDIAL side of the knee is on the image LEFT, the LATERAL side on the image RIGHT; axial: anterior at the top. Sagittal: anterior on the image left; slice numbers increase from MEDIAL (low numbers) to LATERAL (high numbers). Anatomy (fibular head, LCL and popliteus laterally; MCL medially) should agree with this. Input for this study (it replaces the montage description in protocol.md): field of view 140 mm; sag: every slice, each slice a separate 384x384 frame (Frame 1..N in slice order); cor: every slice, each slice a separate 384x384 frame (Frame 1..N in slice order); ax: every slice, each slice a separate 384x384 frame (Frame 1..N in slice order). Each montage title names its series. Tile label i/n = slice index in the series. Montages are given plane by plane (sagittal, coronal, axial, extra coronal when present) in slice order.
+
+About the report you will receive: it is a DRAFT written by a trainee (a student), not by the expert panel. It contains errors: findings that are over-called, findings that are missed, the wrong compartment or side, and terms that do not match the official label definitions. Treat it only as a hint about where to look; it is not evidence. Decide every finding from the images, applying the official label definitions above. Your output is the reference answer (the answer key) against which the trainee's labels will be checked, so give the standard, panel-level label.
+
+Typical errors of the trainees who wrote these reports (measured on thousands of their reports against the images; the official definitions above still decide):
+- MCL: about 1 in 5 of their MCL tears is over-called: deep-fibre or partial sprains, chronic thickening or old injury called 'partial tear'. Only a high-grade or complete ACUTE tear with disrupted fibres and edema is positive.
+- Fracture: about 1 in 10 is over-called: subchondral insufficiency or 'microtrabecular' fractures, stress reaction, osteochondral or degenerative subchondral change, suspected avulsion. Positive needs an acute cortical break or fracture line.
+- ACL: mucoid degeneration, 'chronic' or low-grade partial tears are often called tears; check fibre continuity yourself.
+- PF OA: patellofemoral complaints (maltracking, patella alta, chondromalacia grade 1) are often written up as OA, while real patellofemoral cartilage loss is also often left out when the report focuses on instability or other findings; grade the patellar and trochlear cartilage yourself.
+- Medial OA: often under-reported (about 1 in 10 reports without it show medial cartilage loss): 'fraying', 'mild chondral damage' or no cartilage comment at all; grade the medial femoral and tibial cartilage from the images.
+- Effusion: the most often missed finding (nearly 1 in 5 reports without it): fluid omitted or called 'small'; judge the distension of the suprapatellar recess yourself.
+- Synovitis needs special care. Whether a report mentions synovitis depends mostly on the hospital's writing habit: for comparable knees some hospitals write it several times more often than others, and overall the reports mention it in about 13% of knees while the images show it in about 23%. So the report's wording on synovitis, its presence and its absence, carries little information. Judge it from the fluid-sensitive images only: thickening of the synovial lining, with or without effusion; an effusion by itself is not synovitis.
+- Baker's cyst: often omitted or called 'small' (about 1 in 12 reports without it); inspect the popliteal semimembranosus-gastrocnemius region yourself.
+- Lateral meniscus and contusion: occasionally missed (lateral posterior horn / root tears; impact edema) and contusion occasionally over-called (residual or degenerative subchondral edema).
+
+You receive ONE study: its images (as described above, plane by plane) and its report. Return ONLY a JSON object whose keys are exactly: acl_grade, mcl_grade, mcl_acute, mm_grade, lm_grade, mo_depth, mo_area, mo_ost, mo_bml, lo_depth, lo_area, lo_ost, lo_bml, pf_depth, pf_area, pf_ost, pf_bml, eff_size, syn_thick, hoffa, baker_size, edema_extent, edema_pattern, fracture, p_ACL, p_MCL, p_MM, p_LM, p_MOA, p_LOA, p_PF, p_EFF, p_SYN, p_BAK, p_CON, p_FRA. Integer grades for the attributes, probabilities 0.00-1.00 for p_*.

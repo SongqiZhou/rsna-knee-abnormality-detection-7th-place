@@ -1,0 +1,9 @@
+{
+  "RAW_DATA_DIR": "data/rsna-knee-abnormality-detection",
+  "CACHE_DIR": "data/cache",
+  "LABEL_DIR": "data/labels",
+  "WORK_DIR": "work",
+  "CHECKPOINT_DIR": "runs",
+  "MODEL_DIR": "models",
+  "SUBMISSION_DIR": "submission"
+}

@@ -1,0 +1,9 @@
+.
+./inference
+./inference/kaggle
+./inference/kaggle/final1
+./inference/kaggle/final2
+./labels
+./labels/prompts
+./preprocess
+./training
