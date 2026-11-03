@@ -89,7 +89,7 @@ Steps 4-9 take a few seconds on a CPU.
 | 2 image-only | `prompts/system_image_only.txt` | every slice | ~92 frames of 384 px (58-116 for 90% of studies) | ~20k | 86.7 M |
 | 3 verification | `prompts/system_verification.txt` | every slice + "Trainee's draft report (may contain errors; reference only):" + report | as read 2 | ~21k | 91.3 M |
 
-- **Model.** `gpt-6-astra` through an OpenAI-compatible chat-completions endpoint, `max_tokens` 4000, default
+- **Model.** GPT-6 Astra (`gpt-6-astra`) through an OpenAI-compatible chat-completions endpoint, `max_tokens` 4000, default
   reasoning. Each study is one request and the reply is one JSON object: 24 integer grades (0-3) and 12 probabilities.
   The token totals do not include the prompt tests on the 58 gold studies.
 - **Images.** All images come from the same 140 mm / 384 px slice cache the models train on (`preprocess/`), with

@@ -1,4 +1,4 @@
-"""Read 1 (structured): GPT-6 astra reads each report together with 24 key slices and grades 24 attributes, then gives
+"""Read 1 (structured): GPT-6 Astra reads each report together with 24 key slices and grades 24 attributes, then gives
 a probability for each of the 12 labels.
 
 - Images: three montages, 9 sagittal / 9 coronal slices over the central 15-85% of the series and 6 axial slices over

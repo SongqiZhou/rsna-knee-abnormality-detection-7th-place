@@ -5,7 +5,7 @@ Code for my 7th-place solution (private 0.957 / public 0.970) in the Kaggle comp
 model, a ConvNeXt-S, scored 0.969 public / 0.958 private.
 
 **Pipeline.** The test set has no reports, so the models can only be as good as the labels read out of the training
-reports. An LLM (GPT-6) reads every training study three times: the report with key slices, the images alone, and the
+reports. An LLM (GPT-6 Astra) reads every training study three times: the report with key slices, the images alone, and the
 images with the report as a draft that may contain errors. The reads are rank-blended, a per-hospital correction fixes
 Synovitis, and the result is averaged with the out-of-fold predictions of three model families. One 2.5D label-query
 network (a shared 2D CNN over 3-slice windows of up to 6 series and 13 zoomed views, a label-query decoder and a gated

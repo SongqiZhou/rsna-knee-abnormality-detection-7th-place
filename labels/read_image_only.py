@@ -1,4 +1,4 @@
-"""Read 2 (image-only): GPT-6 astra reads every slice of the study, without the report, and gives the same 24 grades
+"""Read 2 (image-only): GPT-6 Astra reads every slice of the study, without the report, and gives the same 24 grades
 and 12 probabilities as read 1.
 
 - Images: every slice of the sagittal, coronal and axial series (fat-suppressed when the study has one) as its own

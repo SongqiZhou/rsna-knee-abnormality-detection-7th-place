@@ -1,4 +1,4 @@
-"""Read 3 (verification): GPT-6 astra gets every slice (as read 2) and the report, framed as a trainee's draft that may
+"""Read 3 (verification): GPT-6 Astra gets every slice (as read 2) and the report, framed as a trainee's draft that may
 contain errors, and decides each finding from the images.
 
 - System prompt: prompts/system_verification.txt = the shared protocol, the attribute scales, the frame / orientation
