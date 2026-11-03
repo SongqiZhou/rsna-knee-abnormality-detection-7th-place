@@ -6,7 +6,8 @@
   its parent series and crops them on the GPU.
 - Ensemble: per label, the mean over the models of their percentile ranks across the test studies.
 - Paths: environment variables COMP_DIR / MODEL_DIR / OUT, else SETTINGS.json at the repository root, else the
-  Kaggle input folders (the notebook).
+  Kaggle input folders (the notebook): the weights from the attached Kaggle Model songqizhou/rsna-knee-7th-place,
+  else from any attached input that has them (the dataset songqizhou/rsna-knee-7th-place-models, the same files).
 usage: [ENSEMBLE=4|8] python inference/infer.py
 """
 import os, sys, glob, json, time, queue, threading
@@ -63,6 +64,18 @@ def find_dir(fname):
         if hits:
             return os.path.dirname(hits[0])
     raise FileNotFoundError(fname)
+
+
+KAGGLE_MODEL = "rsna-knee-7th-place"   # Kaggle Model songqizhou/rsna-knee-7th-place (PyTorch, variation default)
+
+
+def find_model_dir(fname):
+    """The folder of the attached Kaggle Model (its newest version), else any attached input with the weights."""
+    roots = [r for depth in range(3) for r in glob.glob("/kaggle/input/" + "*/" * depth + KAGGLE_MODEL)]
+    hits = [h for r in roots for h in glob.glob(f"{r}/**/{fname}", recursive=True)]
+    if hits:
+        return os.path.dirname(max(hits, key=lambda h: [int(x) if x.isdigit() else -1 for x in h.split("/")]))
+    return find_dir(fname)
 
 
 def study_windows(vols):
@@ -188,7 +201,8 @@ def _load(study_dir, series_df):
 def main():
     t0 = time.time()
     comp = os.environ.get("COMP_DIR") or setting("RAW_DATA_DIR") or find_dir("test_series.csv")
-    model_dir = os.environ.get("MODEL_DIR") or setting("MODEL_DIR") or find_dir(MODELS[0])
+    model_dir = os.environ.get("MODEL_DIR") or setting("MODEL_DIR") or find_model_dir(MODELS[0])
+    print(f"weights from {model_dir}", flush=True)
     out_csv = os.environ.get("OUT") or (os.path.join(setting("SUBMISSION_DIR"), "submission.csv") if setting("SUBMISSION_DIR")
                                         else "submission.csv")
     os.makedirs(os.path.dirname(os.path.abspath(out_csv)), exist_ok=True)

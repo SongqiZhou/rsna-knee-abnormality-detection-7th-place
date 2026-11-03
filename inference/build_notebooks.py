@@ -1,6 +1,6 @@
 """Assemble the two Kaggle inference notebooks from inference/*.py: each module is shown in full in a %%writefile cell,
 then infer.py runs. Final submission 1 (four models) -> kaggle/final1/, final submission 2 (eight models) ->
-kaggle/final2/. Both attach the public Kaggle Model and the weights dataset (the same files) and are pinned to the Kaggle image the published run used.
+kaggle/final2/. Both load the weights from the public Kaggle Model (the weights dataset, with the same files, is attached too) and are pinned to the Kaggle image the published run used.
 usage: python inference/build_notebooks.py   (then: kaggle kernels push -p inference/kaggle/final1)"""
 import json, os
 H = os.path.dirname(os.path.abspath(__file__))
@@ -26,7 +26,7 @@ NB = {
 
 This notebook reproduces my final submission 1, the four-model rank mean: **private LB 0.957 (7th place), public LB 0.970**. [Final submission 2]({{nb8}}) adds a twin of each model and scores the same.
 
-**No external training data.** The models were trained only on the competition images, with labels read from the competition reports and images by an LLM, starting from ImageNet-pretrained backbones. Weights: the Kaggle Model [RSNA Knee 7th Place](https://www.kaggle.com/models/songqizhou/rsna-knee-7th-place/PyTorch/default) and the same files as the dataset [RSNA Knee 7th Place Models](https://www.kaggle.com/datasets/songqizhou/rsna-knee-7th-place-models), both attached. Training code: [GitHub]({REPO}).
+**No external training data.** The models were trained only on the competition images, with labels read from the competition reports and images by an LLM, starting from ImageNet-pretrained backbones. Weights: loaded from the Kaggle Model [RSNA Knee 7th Place](https://www.kaggle.com/models/songqizhou/rsna-knee-7th-place/PyTorch/default); the dataset [RSNA Knee 7th Place Models](https://www.kaggle.com/datasets/songqizhou/rsna-knee-7th-place-models) with the same files is attached too. Training code: [GitHub]({REPO}).
 
 {TABLE4}
 | **Rank mean of the four** | | | **0.970** | **0.957** |
@@ -42,7 +42,7 @@ On the hidden test set the notebook runs in about 2.5 h on 2×T4."""),
 
 This notebook reproduces my final submission 2: the four models of [final submission 1]({{nb4}}) plus a twin of each, **private LB 0.957, public LB 0.970**. Each twin uses its model's recipe with another seed and is trained on the training set + the 58 gold studies (with my labels, not the host labels).
 
-**No external training data.** The models were trained only on the competition images, with labels read from the competition reports and images by an LLM, starting from ImageNet-pretrained backbones. Weights: the Kaggle Model [RSNA Knee 7th Place](https://www.kaggle.com/models/songqizhou/rsna-knee-7th-place/PyTorch/default) and the same files as the dataset [RSNA Knee 7th Place Models](https://www.kaggle.com/datasets/songqizhou/rsna-knee-7th-place-models), both attached. Training code: [GitHub]({REPO}).
+**No external training data.** The models were trained only on the competition images, with labels read from the competition reports and images by an LLM, starting from ImageNet-pretrained backbones. Weights: loaded from the Kaggle Model [RSNA Knee 7th Place](https://www.kaggle.com/models/songqizhou/rsna-knee-7th-place/PyTorch/default); the dataset [RSNA Knee 7th Place Models](https://www.kaggle.com/datasets/songqizhou/rsna-knee-7th-place-models) with the same files is attached too. Training code: [GitHub]({REPO}).
 
 {TABLE4}
 | **Rank mean of the four** (final submission 1) | | | **0.970** | **0.957** |
