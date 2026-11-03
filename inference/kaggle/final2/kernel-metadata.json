@@ -10,6 +10,9 @@
   "dataset_sources": [
     "songqizhou/rsna-knee-7th-place-models"
   ],
+  "model_sources": [
+    "songqizhou/rsna-knee-7th-place/pyTorch/default/1"
+  ],
   "competition_sources": [
     "rsna-knee-abnormality-detection"
   ],
