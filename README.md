@@ -33,7 +33,8 @@ competition data only, starting from ImageNet-pretrained timm backbones.
 ```bash
 pip install -r requirements.txt
 kaggle competitions download -c rsna-knee-abnormality-detection -p data && unzip -q data/rsna-knee-abnormality-detection.zip -d data/rsna-knee-abnormality-detection
-kaggle datasets download songqizhou/rsna-knee-7th-place-models -p models --unzip
+kaggle models instances versions download songqizhou/rsna-knee-7th-place/pyTorch/default/1 -p models --untar   # Kaggle Model
+# or the same files from the dataset: kaggle datasets download songqizhou/rsna-knee-7th-place-models -p models --unzip
 python inference/infer.py                 # final submission 1 -> submission/submission.csv
 ENSEMBLE=8 python inference/infer.py      # final submission 2
 ```
