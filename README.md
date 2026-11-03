@@ -42,9 +42,9 @@ On Kaggle, the public notebooks
 [rsna-knee-7th-place-inference](https://www.kaggle.com/code/songqizhou/rsna-knee-7th-place-inference) (4 models) and
 [rsna-knee-7th-place-inference-8-models](https://www.kaggle.com/code/songqizhou/rsna-knee-7th-place-inference-8-models)
 run the same code and load the released weights from the Kaggle Model
-[songqizhou/rsna-knee-7th-place](https://www.kaggle.com/models/songqizhou/rsna-knee-7th-place/PyTorch/default) and, with the
-same files, also attached: the Kaggle dataset
-[songqizhou/rsna-knee-7th-place-models](https://www.kaggle.com/datasets/songqizhou/rsna-knee-7th-place-models). All
+[songqizhou/rsna-knee-7th-place](https://www.kaggle.com/models/songqizhou/rsna-knee-7th-place/PyTorch/default); the Kaggle
+dataset [songqizhou/rsna-knee-7th-place-models](https://www.kaggle.com/datasets/songqizhou/rsna-knee-7th-place-models),
+with the same files, is attached too. All
 commands, from the raw competition data to a submission, are in `entry_points.md`.
 
 ## Environment and run time
